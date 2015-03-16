@@ -52,7 +52,7 @@ destinyDBÃüÁî:<br />
             : Ê¾Àı: autocommit true<br />
       select: ²éÑ¯Óï¾ä(Ö§³ÖÁĞÃûÕıÔò±í´ïÊ½Æ¥Åä,¿ÉÇ¶Ì×²éÑ¯).<br />
             : Ê¾Àı1: select id,name where id=1||name=Tom from tbl_student<br />
-            : Ê¾Àı2: select id where name=Tom from select id,name where id>0 from tbl_student<br />
+            : Ê¾Àı2: select id where name=Tom from select id,name where id&gt;0 from tbl_student<br />
       delete: É¾³ıÊı¾İ.<br />
             : Ê¾Àı: delete from tbl_student where id=1<br />
         drop: É¾³ı±í.<br />
@@ -67,19 +67,19 @@ NOTICE:	ÔÚ½øĞĞselect²Ù×÷Ê±£¬¿ÉÒÔÊ¹ÓÃÕıÔò±í´ïÊ½£¨ÕıÔò±í´ïÊ½²»µÈÓÚÄ£ºıÆ¥Åä£¡£©Æ¥Åä
 		|	1	|	Lisa	|	r1	|<br />
 		|	2	|	Bob		|	r2	|<br />
 		|	3	|	Jobs	|	r3	|<br />
-		Ö´ĞĞ select * where id>0 from t1;<br />
+		Ö´ĞĞ select * where id&gt;0 from t1;<br />
 		Êä³ö½«ÊÇ<br />
 		|	*	|<br /><br />
 		|	r1	|<br />
 		|	r2	|<br />
 		|	r3	|<br />
-		Ö´ĞĞ select id,* where id>0 from t1;<br />
+		Ö´ĞĞ select id,* where id&gt;0 from t1;<br />
 		Êä³ö½«ÊÇ<br />
 		|	id	|	*	|<br /><br />
 		|	1	|	r1	|<br />
 		|	2	|	r2	|<br />
 		|	3	|	r3	|<br />
-		Ö´ĞĞ select .* where id>0 from t1;<br />
+		Ö´ĞĞ select .* where id&gt;0 from t1;<br />
 		Êä³ö½«ÊÇ<br />
 		|	id	|	name	|	*	|<br /><br />
 		|	1	|	Lisa	|	r1	|<br />
@@ -92,12 +92,12 @@ NITICE:	Í¬Ê±Ö´ĞĞ¶àÌõÃüÁîÊ±ÒÔ·ÖºÅ·Ö¸ô¡£<br />
 NOTICE:	ÔÚÒ»Ìõ²åÈëÓï¾äÖĞ²åÈë¶àÌõÊı¾İ¡£<br />
 		Èç:	insert into tbl_student 1,Lisa,r1 2,Bob,r2 3,Jobs,r3<br />
 NOTICE:	²éÑ¯Óï¾äÇ¶Ì×<br />
-		Ö´ĞĞ	select id where name=Bob from select id,name where id>0 from tbl_student<br />
+		Ö´ĞĞ	select id where name=Bob from select id,name where id&gt;0 from tbl_student<br />
 		Êä³ö<br />
 		|	id	|<br /><br />
 		|	2	|<br />
 NOTICE:	Âß¼­ÅĞ¶ÏÊ±Ö§³ÖÊ¹ÓÃ=Óë==£¬¸³ÖµÊ±Ö»ÔÊĞí=¡£<br />
-NOTICE:	whereÖ®ºóµÄÂß¼­Óï¾äÖ§³ÖÊ¹ÓÃ>,<,=,==,!=,!,>=,<=,&&,&,|ºÍ||£¬×Ö·û´®±È½Ï¹æÔòÈçÏÂ:<br />
+NOTICE:	whereÖ®ºóµÄÂß¼­Óï¾äÖ§³ÖÊ¹ÓÃ&gt;,&lt;,=,==,!=,!,&gt;=,&lt;=,&amp;&amp;,&amp;,|ºÍ||£¬×Ö·û´®±È½Ï¹æÔòÈçÏÂ:<br />
 		ºº×ÖÒÔ±àÂëÎªĞò<br />
 		Êı×ÖÒÔ´óĞ¡ÎªĞò£¬Ö§³ÖĞ¡ÊıºÍ¸ºÊı<br />
 		Ó¢ÎÄ°´ÕÕ×ÖµäÅÅĞò<br />
@@ -105,7 +105,7 @@ Linux*:	±¾À´ÓûÔÚUbuntuÏÂ±àÒë£¬¿ÉÏ§GCCÕıÔò±í´ïÊ½¿âÃ»ÓĞ¾ßÌåÊµÏÖ£¬±àÒë¿ÉÒÔ³É¹¦µ«ÊÇ½
 		ºóÀ´Ïëµ½boostµÄÕıÔò±í´ïÊ½Ò²Ğí¿ÉÓÃ£¬¿ÉÊÇÕâÃ´Ò»¸öÅÓÈ»´óÎïÒ»ÏÂ×Ó¾Í°ÑÎÒÏÅÅÂÁË£¬ÓĞÃ»ÓĞÈË½éÉÜÏÂboost»òÕß<br />
 		ÄÜ¹»½«´úÂëÇ¨ÒÆµ½Linux*ÉÏ¡£<br />
 		Ö÷ÒªµÄÍ·ÎÄ¼ş°üº¬¶¼Ğ´ÔÚincludes.hÖĞ<br />
-		#include <regex><br />
+		#include &lt;regex&gt;<br />
 		using std::regex;<br />
 		using std::regex_error;<br />
 		using std::regex_match;<br />
