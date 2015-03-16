@@ -62,26 +62,26 @@ destinyDB命令:<br />
 NOTICE:	在进行select操作时，可以使用正则表达式（正则表达式不等于模糊匹配！）匹配列名，不支持模糊匹配<br />
 		举例说明: <br />
 		有表	tbl_student<br />
-		|	id	|	name	|	*	|<br />
+		|	id	|	name	|	*	|<br /><br />
 		|	0	|	Tom		|	r0	|<br />
 		|	1	|	Lisa	|	r1	|<br />
 		|	2	|	Bob		|	r2	|<br />
 		|	3	|	Jobs	|	r3	|<br />
 		执行 select * where id>0 from t1;<br />
 		输出将是<br />
-		|	*	|<br />
+		|	*	|<br /><br />
 		|	r1	|<br />
 		|	r2	|<br />
 		|	r3	|<br />
 		执行 select id,* where id>0 from t1;<br />
 		输出将是<br />
-		|	id	|	*	|<br />
+		|	id	|	*	|<br /><br />
 		|	1	|	r1	|<br />
 		|	2	|	r2	|<br />
 		|	3	|	r3	|<br />
 		执行 select .* where id>0 from t1;<br />
 		输出将是<br />
-		|	id	|	name	|	*	|<br />
+		|	id	|	name	|	*	|<br /><br />
 		|	1	|	Lisa	|	r1	|<br />
 		|	2	|	Bob		|	r2	|<br />
 		|	3	|	Jobs	|	r3	|<br />
@@ -94,8 +94,7 @@ NOTICE:	在一条插入语句中插入多条数据。<br />
 NOTICE:	查询语句嵌套<br />
 		执行	select id where name=Bob from select id,name where id>0 from tbl_student<br />
 		输出<br />
-		|	id	|<br />
-		<br />
+		|	id	|<br /><br />
 		|	2	|<br />
 NOTICE:	逻辑判断时支持使用=与==，赋值时只允许=。<br />
 NOTICE:	where之后的逻辑语句支持使用>,<,=,==,!=,!,>=,<=,&&,&,|和||，字符串比较规则如下:<br />
