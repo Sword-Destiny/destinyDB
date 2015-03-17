@@ -45,7 +45,8 @@ public:
 		if (it == end) {
 			return "";
 		}
-		string match_column = *it++;
+		string match_column = *it;
+		it++;
 		int index = columns.index_of(match_column);
 		if (index == -1) {
 			return match_column;
@@ -53,7 +54,8 @@ public:
 		if (it == end) {
 			return "";
 		}
-		string match_value = *it++;
+		string match_value = *it;
+		it++;
 		if (it != end) {
 			return "";
 		}

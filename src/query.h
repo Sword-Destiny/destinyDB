@@ -16,13 +16,15 @@ bool CommandCycle::query(sregex_token_iterator &it, ResultSet* &current_result_s
 		return false;
 	}
 
-	string select_column_str = *it++;
+	string select_column_str = *it;
+	it++;
 	if (it == end) {
 		lose_argument_error("select之后需要where或者from等参数!");
 		return false;
 	}
 
-	string where_str = *it++;
+	string where_str = *it;
+	it++;
 	bool has_where = false;
 	if (where_str != keyword_where) {
 		if (where_str != keyword_from) {
@@ -44,13 +46,14 @@ bool CommandCycle::query(sregex_token_iterator &it, ResultSet* &current_result_s
 			return false;
 		}
 
-		condition_str = *it++;
+		condition_str = *it;
+		it++;
 		if (it == end) {
 			lose_argument_error("缺少from等参数!");
 			return false;
 		}
 
-		string from_str = *it++;
+		string from_str = *it;it++;
 		if (from_str != keyword_from) {
 			if (condition_str == keyword_from) {
 				print_error(error_lose_arguments, "where之后需要条件!");
@@ -72,7 +75,8 @@ bool CommandCycle::query(sregex_token_iterator &it, ResultSet* &current_result_s
 		return false;
 	}
 
-	string table_name = *it++;
+	string table_name = *it;
+	it++;
 
 	if (table_name != "select") {
 		DestinyTable* p_table = NULL;
@@ -107,7 +111,8 @@ bool CommandCycle::query(sregex_token_iterator &it, ResultSet* &current_result_s
 	sregex_token_iterator column_it(select_column_str.begin(), select_column_str.end(), regex_comma, -1);
 	SingleList<string> columns;
 	while (column_it != end) {
-		string single_column = *column_it++;
+		string single_column = *column_it;
+		column_it++;
 
 		SingleNode<string> *p_c = current_result_set->column_names.head_node;
 		while (p_c != NULL) {

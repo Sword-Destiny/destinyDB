@@ -8,7 +8,7 @@
 #ifndef MAIN_LOG
 #define MAIN_LOG
 #include "includes.h"
-
+#include <Windows.h>
 /*日志记录组件*/
 namespace Log {
 

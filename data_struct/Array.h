@@ -62,7 +62,7 @@ public:
 	}
 	bool set(int index, const T& data) {
 		if (index >= 0 && index < length) {
-			a[index = data];
+			a[index] = data;
 			return true;
 		}
 		return false;

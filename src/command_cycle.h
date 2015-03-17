@@ -50,14 +50,16 @@ bool CommandCycle::check_database_null() {
 bool CommandCycle::get_conditions_by_str(const string &condition_str, SingleList<string> &column_names, SingleList<Condition*> &all_conditions) {
 	sregex_token_iterator condition_it(condition_str.begin(), condition_str.end(), regex_or, -1);
 	while (condition_it != end) {
-		string condition_group = *condition_it++;
+		string condition_group = *condition_it;
+		condition_it++;
 		if (condition_group == "") {
 			continue;
 		}
 		SingleList<SingleCondition> conditions;
 		sregex_token_iterator single_condition_it(condition_group.begin(), condition_group.end(), regex_and, -1);
 		while (single_condition_it != end) {
-			string single_condition_str = *single_condition_it++;
+			string single_condition_str = *single_condition_it;
+			single_condition_it++;
 			if (single_condition_str == "") {
 				continue;
 			}
@@ -159,7 +161,8 @@ void CommandCycle::command_do_open(sregex_token_iterator &it) {
 		lose_argument_error("open之后需要一个代表文件的参数!");
 		return;
 	}
-	file_path = *it++;
+	file_path = *it;
+	it++;
 	if (it == end) {
 		warning_commit();
 		if (is_file_exists(file_path)) {
@@ -186,7 +189,8 @@ void CommandCycle::command_do_show(sregex_token_iterator &it) {
 		lose_argument_error("show之后需要一个代表变量的参数!");
 		return;
 	}
-	string str = *it++;
+	string str = *it;
+	it++;
 	if (it == end) {
 		if (str == "tables") {
 			if (database->tables.length < 1) {
@@ -228,7 +232,8 @@ void CommandCycle::command_do_drop(sregex_token_iterator &it) {
 		lose_argument_error("drop之后需要table!");
 		return;
 	}
-	string table_str = *it++;
+	string table_str = *it;
+	it++;
 	if (table_str != keyword_table) {
 		print_error(error_unknown_command, table_str, "此处需要table!");
 		end_of_last_command = true;
@@ -238,7 +243,8 @@ void CommandCycle::command_do_drop(sregex_token_iterator &it) {
 		lose_argument_error(keyword_table, "之后需要一个代表表名的参数!");
 		return;
 	}
-	string table_name = *it++;
+	string table_name = *it;
+	it++;
 	if (it != end) {
 		print_error(error_too_much_arguments, "drop只需要两个参数!");
 		end_of_last_command = true;
@@ -270,7 +276,8 @@ void CommandCycle::command_do_sort(sregex_token_iterator &it) {
 		lose_argument_error("sort之后需要一个代表表名的参数!");
 		return;
 	}
-	string table_name = *it++;
+	string table_name = *it;
+	it++;
 	DestinyTable* p_table = NULL;
 	if (!database->contains_table(table_name, p_table)) {
 		print_error(error_table_not_exists, table_name);
@@ -281,7 +288,8 @@ void CommandCycle::command_do_sort(sregex_token_iterator &it) {
 		lose_argument_error(table_name, "之后需要by!");
 		return;
 	}
-	string by_str = *it++;
+	string by_str = *it;
+	it++;
 	if (by_str != "by") {
 		print_error(error_unknown_command, by_str, "此处需要by!");
 		end_of_last_command = true;
@@ -291,7 +299,8 @@ void CommandCycle::command_do_sort(sregex_token_iterator &it) {
 		lose_argument_error(keyword_table, "by之后需要一个代表列名的参数!");
 		return;
 	}
-	string column_name = *it++;
+	string column_name = *it;
+	it++;
 	if (it != end) {
 		print_error(error_too_much_arguments, "sort只需要三个参数!");
 		end_of_last_command = true;
@@ -315,7 +324,8 @@ void CommandCycle::command_do_auto_commit(sregex_token_iterator &it) {
 		lose_argument_error(keyword_auto_commit, "之后需要yes/y/true/t或者no/n/false/f!");
 		return;
 	}
-	string str = *it++;
+	string str = *it;
+	it++;
 	if (it == end) {
 		if (regex_match(str, regex_yes)) {
 			auto_commit = true;
@@ -351,7 +361,8 @@ void CommandCycle::command_do_commit(sregex_token_iterator &it) {
 /*run命令*/
 void CommandCycle::command_do_run(sregex_token_iterator &it) {
 	if (it != end) {
-		string file_path = *it++;
+		string file_path = *it;
+		it++;
 		if (it == end) {
 			if (is_file_exists(file_path)) {
 				ifstream ifs(file_path, ios::in);
@@ -377,10 +388,12 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 		return;
 	}
 	if (it != end) {
-		string str = *it++;
+		string str = *it;
+		it++;
 		if (str == keyword_into) {
 			if (it != end) {
-				str = *it++;
+				str = *it;
+				it++;
 				DestinyTable* p_table = NULL;
 				if (database->contains_table(str, p_table)) {
 					if (it == end) {
@@ -389,11 +402,13 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 					else {
 						int insert_num = 0;
 						while (it != end) {
-							string obj_str = *it++;
+							string obj_str = *it;
+							it++;
 							sregex_token_iterator column_it(obj_str.begin(), obj_str.end(), regex_comma, -1);
 							SingleList<string> datas;
 							while (column_it != end) {
-								datas.add_tail(*column_it++);
+								datas.add_tail(*column_it); 
+								column_it++;
 							}
 							if (datas.length != p_table->column_names.length) {
 								print_error(error_column_num_not_match, "此数据对象字段太多或太少,不能插入表中:", obj_str);
@@ -438,10 +453,12 @@ void CommandCycle::command_do_create(sregex_token_iterator &it) {
 		return;
 	}
 	if (it != end) {
-		string str = *it++;
+		string str = *it;
+		it++;
 		if (str == keyword_table) {
 			if (it != end) {
-				str = *it++;
+				str = *it;
+				it++;
 				string table_name = str;
 				if (check_full_keyword(str)) {
 					print_error(error_keyword, str, "不能作为表名!");
@@ -454,12 +471,14 @@ void CommandCycle::command_do_create(sregex_token_iterator &it) {
 						print_error(error_table_exists, str, ":不可重复建表!");
 					}
 					else {
-						str = *it++;
+						str = *it;
+						it++;
 						if (it == end) {
 							SingleList<string> columns;
 							sregex_token_iterator it_column(str.begin(), str.end(), regex_comma, -1);
 							while (it_column != end) {
-								string str_column = *it_column++;
+								string str_column = *it_column;
+								it_column++;
 								if (check_full_keyword(str)) {
 									print_error(error_keyword, str, "不能作为列名!");
 									end_of_last_command = true;
@@ -549,7 +568,8 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 		lose_argument_error("update之后需要一个代表表名的参数!");
 		return;
 	}
-	string table_name = *it++;
+	string table_name = *it;
+	it++;
 	DestinyTable* p_table = NULL;
 	if (!database->contains_table(table_name, p_table)) {
 		print_error(error_table_not_exists, table_name);
@@ -561,7 +581,8 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 		return;
 	}
 
-	string where_str = *it++;
+	string where_str = *it;
+	it++;
 	bool has_where = false;
 	if (where_str != keyword_where) {
 		if (where_str != keyword_set) {
@@ -583,13 +604,15 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 			return;
 		}
 
-		condition_str = *it++;
+		condition_str = *it;
+		it++;
 		if (it == end) {
 			lose_argument_error("缺少set!");
 			return;
 		}
 
-		string set = *it++;
+		string set = *it;
+		it++;
 		if (set != keyword_set) {
 			if (condition_str == keyword_set) {
 				print_error(error_lose_arguments, "where之后需要条件!");
@@ -621,17 +644,20 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 		return;
 	}
 
-	string update_columns_str = *it++;
+	string update_columns_str = *it;
+	it++;
 	SingleList<UpdatePair> update_fields;
 
 	sregex_token_iterator update_it(update_columns_str.begin(), update_columns_str.end(), regex_comma, -1);
 	while (update_it != end) {
-		string update_pair_str = *update_it++;
+		string update_pair_str = *update_it;
+		update_it++;
 		sregex_token_iterator update_pair_it(update_pair_str.begin(), update_pair_str.end(), regex_equal, -1);
 		if (update_pair_it == end) {
 			continue;
 		}
-		string update_column_name = *update_pair_it++;
+		string update_column_name = *update_pair_it;
+		update_pair_it++;
 		int index = p_table->column_names.index_of(update_column_name);
 		if (index == -1) {
 			print_error(error_column_not_found, update_column_name);
@@ -644,7 +670,8 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 			list_free(all_conditions);
 			return;
 		}
-		string new_value = *update_pair_it++;
+		string new_value = *update_pair_it;
+		update_pair_it++;
 		if (update_pair_it != end) {
 			print_error(error_expression, update_columns_str);
 			end_of_last_command = true;
@@ -678,14 +705,16 @@ void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 		lose_argument_error("delete之后需要from!");
 		return;
 	}
-	string from_str = *it++;
+	string from_str = *it;
+	it++;
 	if (from_str != keyword_from) {
 		print_error(error_unknown_command, from_str, ":此处需要from关键字!");
 		end_of_last_command = true;
 		return;
 	}
 
-	string table_name = *it++;
+	string table_name = *it;
+	it++;
 	DestinyTable* p_table = NULL;
 	if (!database->contains_table(table_name, p_table)) {
 		print_error(error_table_not_exists, table_name);
@@ -708,7 +737,8 @@ void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 		return;
 	}
 
-	string where_str = *it++;
+	string where_str = *it;
+	it++;
 	if (where_str != keyword_where) {
 		print_error(error_unknown_command, where_str, ":此处是否应该是where关键字?");
 		end_of_last_command = true;
@@ -721,7 +751,8 @@ void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 		return;
 	}
 
-	condition_str = *it++;
+	condition_str = *it;
+	it++;
 	if (it != end) {
 		print_error(error_too_much_arguments, "delete只需要2个或者4个参数!");
 		end_of_last_command = true;
@@ -749,7 +780,8 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 		lose_argument_error("rename之后需要紧跟table或者column!");
 		return;
 	}
-	string type_str = *it++;
+	string type_str = *it;
+	it++;
 
 	if (type_str == keyword_table) {
 		if (it == end) {
@@ -757,7 +789,8 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 			return;
 		}
 		else {
-			string table_name = *it++;
+			string table_name = *it;
+			it++;
 			DestinyTable* p_table = NULL;
 			if (!database->contains_table(table_name, p_table)) {
 				print_error(error_table_not_exists, table_name);
@@ -768,7 +801,8 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 				lose_argument_error(table_name, "之后需要一个表示新表名的参数!");
 				return;
 			}
-			string new_name = *it++;
+			string new_name = *it;
+			it++;
 			if (it == end) {
 				if (p_table->name != new_name) {
 					p_table->name = new_name;
@@ -793,12 +827,14 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 			lose_argument_error("column之后需要代表列名的参数!");
 			return;
 		}
-		string column_name = *it++;
+		string column_name = *it;
+		it++;
 		if (it == end) {
 			lose_argument_error(column_name, "之后需要in参数!");
 			return;
 		}
-		string in_str = *it++;
+		string in_str = *it;
+		it++;
 		if (in_str != "in") {
 			if (column_name == "in") {
 				print_error(error_lose_arguments, "column之后需要代表列名的参数!");
@@ -813,7 +849,8 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 			lose_argument_error("in之后需要一个代表表名的参数!");
 			return;
 		}
-		string table_name = *it++;
+		string table_name = *it;
+		it++;
 		DestinyTable *p_table = NULL;
 		if (!database->contains_table(table_name, p_table)) {
 			print_error(error_table_not_exists, table_name);
@@ -830,7 +867,8 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 			lose_argument_error(table_name, "之后需要一个代表新列名的参数!");
 			return;
 		}
-		string new_column = *it++;
+		string new_column = *it;
+		it++;
 		if (new_column == column_name) {
 			end_of_last_command = true;
 			cout << "未做任何改变!" << endl;
@@ -873,7 +911,8 @@ void CommandCycle::command_single_cycle(string &single_command_str) {
 	single_command.append(single_command_str);
 	sregex_token_iterator it(single_command.begin(), single_command.end(), regex_empty, -1);
 	if (it != end) {//NOTICE:"if" or "while"
-		string str = *it++;
+		string str = *it;
+		it++;
 		if (str == keyword_insert) {
 			command_do_insert(it);
 		}
@@ -964,7 +1003,8 @@ void CommandCycle::command_cycle(istream &ist, bool child_cycle) {
 		else {
 			sregex_token_iterator it(command.begin(), command.end(), regex_seperator, -1);
 			while (it != end) {
-				string command_temp_str = *it++;
+				string command_temp_str = *it;
+				it++;
 				if (it == end) {
 					enable_last_command = true;
 				}

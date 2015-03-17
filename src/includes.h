@@ -16,7 +16,7 @@
 #define MAX_COLUMN_NUM 100000
 #define MAX_COLUMN_NUM_STR "100000"
 
-#include <Windows.h>
+//#include <Windows.h>
 
 #include <regex>
 using std::regex;
