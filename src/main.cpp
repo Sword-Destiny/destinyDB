@@ -7,8 +7,6 @@
 
 #include "command_cycle.h"
 
-//NOTICE:SingleList改为带尾指针的循环链表
-//NOTICE:表名,列名,数据中包含关键字,特殊字符
 using namespace DatabaseFile;
 using namespace Error;
 using namespace CommandCycle;
@@ -59,6 +57,5 @@ int main(int argc, char** argv) {
 	if (database != NULL) {
 		delete database;
 	}
-	system("pause");//记得删除此句
 	return 0;
 }

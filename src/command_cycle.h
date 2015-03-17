@@ -13,6 +13,8 @@
 #include "database_file.h"
 #include "query.h"
 
+//NOTICE:转义字符处理
+
  /*提醒提交更改*/
 void CommandCycle::warning_commit() {
 	if (database&&!database->fresh_bit) {
