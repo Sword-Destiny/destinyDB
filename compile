@@ -1,8 +1,0 @@
-for Linux*:
-	cd ./Linux/src
-	g++ main.cpp -O5 -o ../Release/destinyDB -std=c++11
-	cd ../Release
-	./destinyDB
-	
-for Windows*:
-	«Î π”√Visual Studio

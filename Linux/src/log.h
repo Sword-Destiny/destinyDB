@@ -10,43 +10,9 @@
 
 #include "includes.h"
 
-#ifdef _WIN32
-#include <Windows.h>
- /*日志记录组件*/
-namespace Log {
-
-	template<class T>
-	/*记录日志*/
-	static void log(const T &info) {
-		SYSTEMTIME system_time;
-		GetLocalTime(&system_time);
-		ofstream os("./main.log", ios::app);
-		os << endl << system_time.wYear << "-" << system_time.wMonth << "-" << system_time.wDay
-			<< " " << system_time.wHour << ":" << system_time.wMinute << ":" << system_time.wSecond << " " << info;
-		os.close();
-	}
-	template<class T>
-	/*在新文件中记录日志*/
-	static void log_in_new_file(const string &filePath, const T &info) {
-		SYSTEMTIME system_time;
-		GetLocalTime(&system_time);
-		ofstream os(filePath, ios::app);
-		os << endl << system_time.wYear << "-" << system_time.wMonth << "-" << system_time.wDay
-			<< " " << system_time.wHour << ":" << system_time.wMinute << ":" << system_time.wSecond << " " << info;
-		os.close();
-	}
-
-	/*清空日志*/
-	static void clean_main_log() {
-		SYSTEMTIME system_time;
-		GetLocalTime(&system_time);
-		ofstream os("./main.log", ios::out);
-		os << "#destinyDB 日志记录 " << system_time.wYear << "-" << system_time.wMonth << "-" << system_time.wDay
-			<< " " << system_time.wHour << ":" << system_time.wMinute << ":" << system_time.wSecond;
-		os.close();
-	}
-}
-#elif __gnu_linux__
+#   ifdef __gnu_linux__
+//或者是#ifdef __unix__
+//又或者是#ifdef __linux__
 
 #include <sys/time.h>
 #include <time.h>
@@ -88,7 +54,5 @@ namespace Log {
         os.close();
     }
 }
-#else
-
 #	endif
 #endif
