@@ -8,6 +8,12 @@
 # destinyDB<br />
 a simple and embedded database<br />
 一个简单的嵌入式数据库<br />
+<br />
+author:	Sword-Destiny<br />
+作者:	天命剑主(武汉大学国际软件学院2013级袁浩)<br />
+QQ:	1948281915<br />
+邮箱:	yuanhonglong@outlook.com<br />
+<br />
 version: 0.1<br />
 虽说嵌入式数据库听起来很高端大气上档次，不过作为一个大二的学生，我这个其实根本算不上什么数据库，<br />
 不过就是支持一些基本的操作而已。<br />
