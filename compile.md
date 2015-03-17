@@ -14,7 +14,7 @@ for Linux*:<br>
 	./destinyDB<br>
 	<br>
 for Windows*:<br>
-	«Î π”√Visual Studio<br>
+	Visual Studio<br>
 	</pre>
 	</p>
 </body>
