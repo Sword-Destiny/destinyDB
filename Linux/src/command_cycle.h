@@ -1,8 +1,8 @@
 /*******************************************************
  *	command_cycle.h
- *	author:ÌìÃü½£Ö÷
- *	copyright(c) 2015 - ~: ÇëÔÄ¶Á LICENSE ÎÄ¼ş
- *	Description(ÃèÊö):ÃüÁîÑ­»·
+ *	author:å¤©å‘½å‰‘ä¸»
+ *	copyright(c) 2015 - ~: è¯·é˜…è¯» LICENSE æ–‡ä»¶
+ *	Description(æè¿°):å‘½ä»¤å¾ªç¯
  ******************************************************/
 #pragma once
 #ifndef COMMAND_CYCLE_H
@@ -13,30 +13,30 @@
 #include "database_file.h"
 #include "query.h"
 
-//NOTICE:×ªÒå×Ö·û´¦Àí
+//NOTICE:è½¬ä¹‰å­—ç¬¦å¤„ç†
 
- /*ÌáĞÑÌá½»¸ü¸Ä*/
+ /*æé†’æäº¤æ›´æ”¹*/
 void CommandCycle::warning_commit() {
 	if (database&&!database->fresh_bit) {
 		if (auto_commit) {
 			database->commit();
 		}
 		else {
-			cout << "ÓĞÎ´Ìá½»µÄ¸ü¸Ä,ÊÇ·ñÌá½»¸ü¸Ä?(y/n)";
+			cout << "æœ‰æœªæäº¤çš„æ›´æ”¹,æ˜¯å¦æäº¤æ›´æ”¹?(y/n)";
 			string user_answer = "";
 			getline(cin, user_answer);
 			if (user_answer == "" || regex_match(user_answer, regex_empty) || regex_match(user_answer, regex_empty_yes)) {
 				database->commit();
-				cout << "ÒÑÌá½»¸ü¸Ä!" << endl;
+				cout << "å·²æäº¤æ›´æ”¹!" << endl;
 			}
 			else {
-				cout << "ÒÑ·ÅÆúÌá½»¸ü¸Ä!" << endl;
+				cout << "å·²æ”¾å¼ƒæäº¤æ›´æ”¹!" << endl;
 			}
 		}
 	}
 }
 
-/*ÌáĞÑÌá½»¸ü¸Ä*/
+/*æé†’æäº¤æ›´æ”¹*/
 bool CommandCycle::check_database_null() {
 	if (database == NULL) {
 		print_error(error_no_database_file);
@@ -46,7 +46,7 @@ bool CommandCycle::check_database_null() {
 	return false;
 }
 
-/*ÌáÈ¡conditions*/
+/*æå–conditions*/
 bool CommandCycle::get_conditions_by_str(const string &condition_str, SingleList<string> &column_names, SingleList<Condition*> &all_conditions) {
 	sregex_token_iterator condition_it(condition_str.begin(), condition_str.end(), regex_or, -1);
 	while (condition_it != end) {
@@ -98,7 +98,7 @@ bool CommandCycle::get_conditions_by_str(const string &condition_str, SingleList
 }
 
 template<class T>
-/*ÊÍ·ÅÁ´±í¿Õ¼ä*/
+/*é‡Šæ”¾é“¾è¡¨ç©ºé—´*/
 void CommandCycle::list_free(SingleList<T*> &list) {
 	SingleNode<T*> *p = list.head_node;
 	while (p != NULL) {
@@ -107,7 +107,7 @@ void CommandCycle::list_free(SingleList<T*> &list) {
 	}
 }
 
-/*´òÓ¡²ÎÊı´íÎóĞÅÏ¢*/
+/*æ‰“å°å‚æ•°é”™è¯¯ä¿¡æ¯*/
 void CommandCycle::lose_argument_error(string error_information, string error_argument) {
 	if (enable_last_command) {
 		end_of_last_command = false;
@@ -119,29 +119,29 @@ void CommandCycle::lose_argument_error(string error_information, string error_ar
 	}
 }
 
-/*versionÃüÁî*/
+/*versionå‘½ä»¤*/
 void CommandCycle::command_do_version(sregex_token_iterator &it) {
 	if (it == end) {
 		print_version();
 	}
 	else {
-		print_error(Error::error_too_much_arguments, "version²»ĞèÒª²ÎÊı!");
+		print_error(Error::error_too_much_arguments, "versionä¸éœ€è¦å‚æ•°!");
 	}
 	end_of_last_command = true;
 }
 
-/*helpÃüÁî*/
+/*helpå‘½ä»¤*/
 void CommandCycle::command_do_help(sregex_token_iterator &it) {
 	if (it == end) {
 		print_help_information();
 	}
 	else {
-		print_error(error_too_much_arguments, "help²»ĞèÒª²ÎÊı!");
+		print_error(error_too_much_arguments, "helpä¸éœ€è¦å‚æ•°!");
 	}
 	end_of_last_command = true;
 }
 
-/*exitÃüÁî*/
+/*exitå‘½ä»¤*/
 void CommandCycle::command_do_exit(sregex_token_iterator &it) {
 	if (it == end) {
 		warning_commit();
@@ -149,16 +149,16 @@ void CommandCycle::command_do_exit(sregex_token_iterator &it) {
 		exit(0);
 	}
 	else {
-		print_error(error_too_much_arguments, "exit²»ĞèÒª²ÎÊı!");
+		print_error(error_too_much_arguments, "exitä¸éœ€è¦å‚æ•°!");
 		end_of_last_command = true;
 	}
 }
 
-/*openÃüÁî*/
+/*openå‘½ä»¤*/
 void CommandCycle::command_do_open(sregex_token_iterator &it) {
 	string file_path;
 	if (it == end) {
-		lose_argument_error("openÖ®ºóĞèÒªÒ»¸ö´ú±íÎÄ¼şµÄ²ÎÊı!");
+		lose_argument_error("openä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨æ–‡ä»¶çš„å‚æ•°!");
 		return;
 	}
 	file_path = *it;
@@ -169,24 +169,24 @@ void CommandCycle::command_do_open(sregex_token_iterator &it) {
 			open_file(file_path);
 		}
 		else {
-			print_error(warning_no_such_file, "ÒÑ´´½¨¿ÕÊı¾İ¿âÎÄ¼ş:", file_path);
+			print_error(warning_no_such_file, "å·²åˆ›å»ºç©ºæ•°æ®åº“æ–‡ä»¶:", file_path);
 			create_file(file_path);
 			open_file(file_path);
 		}
 	}
 	else {
-		print_error(error_too_much_arguments, "openÖ»ĞèÒªÒ»¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "openåªéœ€è¦ä¸€ä¸ªå‚æ•°!");
 	}
 	end_of_last_command = true;
 }
 
-/*showÃüÁî*/
+/*showå‘½ä»¤*/
 void CommandCycle::command_do_show(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error("showÖ®ºóĞèÒªÒ»¸ö´ú±í±äÁ¿µÄ²ÎÊı!");
+		lose_argument_error("showä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨å˜é‡çš„å‚æ•°!");
 		return;
 	}
 	string str = *it;
@@ -194,7 +194,7 @@ void CommandCycle::command_do_show(sregex_token_iterator &it) {
 	if (it == end) {
 		if (str == "tables") {
 			if (database->tables.length < 1) {
-				cout << "Êı¾İ¿âÊÇ¿ÕµÄ,Ã»ÓĞ±í!" << endl;
+				cout << "æ•°æ®åº“æ˜¯ç©ºçš„,æ²¡æœ‰è¡¨!" << endl;
 				return;
 			}
 			SingleNode<DestinyTable*> *p = database->tables.head_node;
@@ -218,35 +218,35 @@ void CommandCycle::command_do_show(sregex_token_iterator &it) {
 		}
 	}
 	else {
-		print_error(error_too_much_arguments, "showÖ»ĞèÒªÒ»¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "showåªéœ€è¦ä¸€ä¸ªå‚æ•°!");
 	}
 	end_of_last_command = true;
 }
 
-/*dropÃüÁî*/
+/*dropå‘½ä»¤*/
 void CommandCycle::command_do_drop(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error("dropÖ®ºóĞèÒªtable!");
+		lose_argument_error("dropä¹‹åéœ€è¦table!");
 		return;
 	}
 	string table_str = *it;
 	it++;
 	if (table_str != keyword_table) {
-		print_error(error_unknown_command, table_str, "´Ë´¦ĞèÒªtable!");
+		print_error(error_unknown_command, table_str, "æ­¤å¤„éœ€è¦table!");
 		end_of_last_command = true;
 		return;
 	}
 	if (it == end) {
-		lose_argument_error(keyword_table, "Ö®ºóĞèÒªÒ»¸ö´ú±í±íÃûµÄ²ÎÊı!");
+		lose_argument_error(keyword_table, "ä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨è¡¨åçš„å‚æ•°!");
 		return;
 	}
 	string table_name = *it;
 	it++;
 	if (it != end) {
-		print_error(error_too_much_arguments, "dropÖ»ĞèÒªÁ½¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "dropåªéœ€è¦ä¸¤ä¸ªå‚æ•°!");
 		end_of_last_command = true;
 		return;
 	}
@@ -257,23 +257,23 @@ void CommandCycle::command_do_drop(sregex_token_iterator &it) {
 		return;
 	}
 	if (database->drop_table(p_table)) {
-		cout << "É¾³ı±í" << table_name << "³É¹¦!" << endl;
+		cout << "åˆ é™¤è¡¨" << table_name << "æˆåŠŸ!" << endl;
 		database->fresh_bit = false;
 	}
 	else {
-		print_error(error_unknown, "É¾³ı±íÊ§°Ü!");
+		print_error(error_unknown, "åˆ é™¤è¡¨å¤±è´¥!");
 	}
 	end_of_last_command = true;
 	return;
 }
 
-/*dropÃüÁî*/
+/*dropå‘½ä»¤*/
 void CommandCycle::command_do_sort(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error("sortÖ®ºóĞèÒªÒ»¸ö´ú±í±íÃûµÄ²ÎÊı!");
+		lose_argument_error("sortä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨è¡¨åçš„å‚æ•°!");
 		return;
 	}
 	string table_name = *it;
@@ -285,24 +285,24 @@ void CommandCycle::command_do_sort(sregex_token_iterator &it) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error(table_name, "Ö®ºóĞèÒªby!");
+		lose_argument_error(table_name, "ä¹‹åéœ€è¦by!");
 		return;
 	}
 	string by_str = *it;
 	it++;
 	if (by_str != "by") {
-		print_error(error_unknown_command, by_str, "´Ë´¦ĞèÒªby!");
+		print_error(error_unknown_command, by_str, "æ­¤å¤„éœ€è¦by!");
 		end_of_last_command = true;
 		return;
 	}
 	if (it == end) {
-		lose_argument_error(keyword_table, "byÖ®ºóĞèÒªÒ»¸ö´ú±íÁĞÃûµÄ²ÎÊı!");
+		lose_argument_error(keyword_table, "byä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨åˆ—åçš„å‚æ•°!");
 		return;
 	}
 	string column_name = *it;
 	it++;
 	if (it != end) {
-		print_error(error_too_much_arguments, "sortÖ»ĞèÒªÈı¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "sortåªéœ€è¦ä¸‰ä¸ªå‚æ•°!");
 		end_of_last_command = true;
 		return;
 	}
@@ -312,16 +312,16 @@ void CommandCycle::command_do_sort(sregex_token_iterator &it) {
 		return;
 	}
 	p_table->sort_by(column_name);
-	cout << "ÅÅĞòÍê³É!" << endl;
+	cout << "æ’åºå®Œæˆ!" << endl;
 	database->fresh_bit = false;
 	end_of_last_command = true;
 	return;
 }
 
-/*autocommitÃüÁî*/
+/*autocommitå‘½ä»¤*/
 void CommandCycle::command_do_auto_commit(sregex_token_iterator &it) {
 	if (it == end) {
-		lose_argument_error(keyword_auto_commit, "Ö®ºóĞèÒªyes/y/true/t»òÕßno/n/false/f!");
+		lose_argument_error(keyword_auto_commit, "ä¹‹åéœ€è¦yes/y/true/tæˆ–è€…no/n/false/f!");
 		return;
 	}
 	string str = *it;
@@ -334,31 +334,31 @@ void CommandCycle::command_do_auto_commit(sregex_token_iterator &it) {
 			auto_commit = false;
 		}
 		else {
-			print_error(error_unknown_command, str, "´Ë´¦ĞèÒªyes/y/true/t»òÕßno/n/false/f!");
+			print_error(error_unknown_command, str, "æ­¤å¤„éœ€è¦yes/y/true/tæˆ–è€…no/n/false/f!");
 		}
 	}
 	else {
-		print_error(error_too_much_arguments, "autocommitÖ»ĞèÒªÒ»¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "autocommitåªéœ€è¦ä¸€ä¸ªå‚æ•°!");
 	}
 	end_of_last_command = true;
 }
 
-/*commitÃüÁî*/
+/*commitå‘½ä»¤*/
 void CommandCycle::command_do_commit(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
 		database->commit();
-		cout << "Ìá½»¸ü¸Ä³É¹¦!" << endl;
+		cout << "æäº¤æ›´æ”¹æˆåŠŸ!" << endl;
 	}
 	else {
-		print_error(error_too_much_arguments, "commit²»ĞèÒª²ÎÊı!");
+		print_error(error_too_much_arguments, "commitä¸éœ€è¦å‚æ•°!");
 	}
 	end_of_last_command = true;
 }
 
-/*runÃüÁî*/
+/*runå‘½ä»¤*/
 void CommandCycle::command_do_run(sregex_token_iterator &it) {
 	if (it != end) {
 		string file_path = *it;
@@ -370,19 +370,19 @@ void CommandCycle::command_do_run(sregex_token_iterator &it) {
 				ifs.close();
 			}
 			else {
-				print_error(warning_no_such_file, file_path, ":²»»áÖ´ĞĞÈÎºÎ²Ù×÷!");
+				print_error(warning_no_such_file, file_path, ":ä¸ä¼šæ‰§è¡Œä»»ä½•æ“ä½œ!");
 			}
 		}
 		else {
-			print_error(error_too_much_arguments, "runÖ»ĞèÒªÒ»¸ö²ÎÊı!");
+			print_error(error_too_much_arguments, "runåªéœ€è¦ä¸€ä¸ªå‚æ•°!");
 		}
 		end_of_last_command = true;
 		return;
 	}
-	lose_argument_error("runÖ®ºóĞèÒªÒ»¸ö´ú±ídestinyDB½Å±¾µÄ²ÎÊı!");
+	lose_argument_error("runä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨destinyDBè„šæœ¬çš„å‚æ•°!");
 }
 
-/*insertÃüÁî*/
+/*insertå‘½ä»¤*/
 void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
@@ -397,7 +397,7 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 				DestinyTable* p_table = NULL;
 				if (database->contains_table(str, p_table)) {
 					if (it == end) {
-						lose_argument_error(p_table->name, "ºóÈ±ÉÙÁËÒª²åÈë±íÖĞµÄÊı¾İ!");
+						lose_argument_error(p_table->name, "åç¼ºå°‘äº†è¦æ’å…¥è¡¨ä¸­çš„æ•°æ®!");
 					}
 					else {
 						int insert_num = 0;
@@ -411,7 +411,7 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 								column_it++;
 							}
 							if (datas.length != p_table->column_names.length) {
-								print_error(error_column_num_not_match, "´ËÊı¾İ¶ÔÏó×Ö¶ÎÌ«¶à»òÌ«ÉÙ,²»ÄÜ²åÈë±íÖĞ:", obj_str);
+								print_error(error_column_num_not_match, "æ­¤æ•°æ®å¯¹è±¡å­—æ®µå¤ªå¤šæˆ–å¤ªå°‘,ä¸èƒ½æ’å…¥è¡¨ä¸­:", obj_str);
 								continue;
 							}
 							DestinyObject obj(datas);
@@ -423,7 +423,7 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 								break;
 							}
 						}
-						cout << "²åÈëÊı¾İ¹²" << insert_num << "ĞĞ!" << endl;
+						cout << "æ’å…¥æ•°æ®å…±" << insert_num << "è¡Œ!" << endl;
 						database->fresh_bit = false;
 						end_of_last_command = true;
 					}
@@ -434,7 +434,7 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 				}
 			}
 			else {
-				lose_argument_error("insertÖ®ºóĞèÒª´ú±í±íÃûµÄ²ÎÊı!");
+				lose_argument_error("insertä¹‹åéœ€è¦ä»£è¡¨è¡¨åçš„å‚æ•°!");
 			}
 		}
 		else {
@@ -443,11 +443,11 @@ void CommandCycle::command_do_insert(sregex_token_iterator &it) {
 		}
 	}
 	else {
-		lose_argument_error("insertÖ®ºóĞèÒª½ô¸úinto!");
+		lose_argument_error("insertä¹‹åéœ€è¦ç´§è·Ÿinto!");
 	}
 }
 
-/*createÃüÁî*/
+/*createå‘½ä»¤*/
 void CommandCycle::command_do_create(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
@@ -461,14 +461,14 @@ void CommandCycle::command_do_create(sregex_token_iterator &it) {
 				it++;
 				string table_name = str;
 				if (check_full_keyword(str)) {
-					print_error(error_keyword, str, "²»ÄÜ×÷Îª±íÃû!");
+					print_error(error_keyword, str, "ä¸èƒ½ä½œä¸ºè¡¨å!");
 					end_of_last_command = true;
 					return;
 				}
 				if (it != end) {
 					DestinyTable* p_table = NULL;
 					if (database->contains_table(str, p_table)) {
-						print_error(error_table_exists, str, ":²»¿ÉÖØ¸´½¨±í!");
+						print_error(error_table_exists, str, ":ä¸å¯é‡å¤å»ºè¡¨!");
 					}
 					else {
 						str = *it;
@@ -480,12 +480,12 @@ void CommandCycle::command_do_create(sregex_token_iterator &it) {
 								string str_column = *it_column;
 								it_column++;
 								if (check_full_keyword(str)) {
-									print_error(error_keyword, str, "²»ÄÜ×÷ÎªÁĞÃû!");
+									print_error(error_keyword, str, "ä¸èƒ½ä½œä¸ºåˆ—å!");
 									end_of_last_command = true;
 									return;
 								}
 								if (columns.index_of(str_column) != -1) {
-									print_error(error_column_repeat, str_column, ":½¨±íÊ§°Ü!");
+									print_error(error_column_repeat, str_column, ":å»ºè¡¨å¤±è´¥!");
 									end_of_last_command = true;
 									return;
 								}
@@ -493,7 +493,7 @@ void CommandCycle::command_do_create(sregex_token_iterator &it) {
 							}
 							p_table = new DestinyTable(table_name, columns);
 							if (database->add_table(p_table)) {
-								cout << "½¨±í³É¹¦!" << endl;
+								cout << "å»ºè¡¨æˆåŠŸ!" << endl;
 								database->fresh_bit = false;
 							}
 							else {
@@ -501,30 +501,30 @@ void CommandCycle::command_do_create(sregex_token_iterator &it) {
 							}
 						}
 						else {
-							print_error(error_too_much_arguments, "createÖ»ĞèÒªÈı¸ö²ÎÊı!");
+							print_error(error_too_much_arguments, "createåªéœ€è¦ä¸‰ä¸ªå‚æ•°!");
 						}
 					}
 					end_of_last_command = true;
 				}
 				else {
-					lose_argument_error(table_name, "Ö®ºóĞèÒªÊäÈëÁĞÃûµÈ²ÎÊı!");
+					lose_argument_error(table_name, "ä¹‹åéœ€è¦è¾“å…¥åˆ—åç­‰å‚æ•°!");
 				}
 			}
 			else {
-				lose_argument_error("tableÖ®ºóÈ±ÉÙ±íÃûµÈ²ÎÊı!");
+				lose_argument_error("tableä¹‹åç¼ºå°‘è¡¨åç­‰å‚æ•°!");
 			}
 		}
 		else {
-			print_error(error_unknown_command, str, ":´Ë´¦ÊÇ·ñÓ¦¸ÃÎªtable?");
+			print_error(error_unknown_command, str, ":æ­¤å¤„æ˜¯å¦åº”è¯¥ä¸ºtable?");
 			end_of_last_command = true;
 		}
 	}
 	else {
-		lose_argument_error("createºóĞèÒª½ô¸útableµÈ²ÎÊı!");
+		lose_argument_error("createåéœ€è¦ç´§è·Ÿtableç­‰å‚æ•°!");
 	}
 }
 
-/*selectÃüÁî*/
+/*selectå‘½ä»¤*/
 void CommandCycle::command_do_select(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
@@ -550,7 +550,7 @@ void CommandCycle::command_do_select(sregex_token_iterator &it) {
 			}
 		}
 		else {
-			cout << "²éÑ¯½á¹ûÎª¿Õ!" << endl;
+			cout << "æŸ¥è¯¢ç»“æœä¸ºç©º!" << endl;
 		}
 		delete result;
 	}
@@ -559,13 +559,13 @@ void CommandCycle::command_do_select(sregex_token_iterator &it) {
 	}
 }
 
-/*¸üĞÂ²Ù×÷*/
+/*æ›´æ–°æ“ä½œ*/
 void CommandCycle::command_do_update(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error("updateÖ®ºóĞèÒªÒ»¸ö´ú±í±íÃûµÄ²ÎÊı!");
+		lose_argument_error("updateä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨è¡¨åçš„å‚æ•°!");
 		return;
 	}
 	string table_name = *it;
@@ -577,7 +577,7 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error(table_name, "ºóĞèÒª½ô¸úwhere»òÕßset!");
+		lose_argument_error(table_name, "åéœ€è¦ç´§è·Ÿwhereæˆ–è€…set!");
 		return;
 	}
 
@@ -586,7 +586,7 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 	bool has_where = false;
 	if (where_str != keyword_where) {
 		if (where_str != keyword_set) {
-			print_error(error_unknown_command, where_str, ":´Ë´¦ÊÇ·ñÓ¦¸ÃÊÇwhere¹Ø¼ü×Ö?");
+			print_error(error_unknown_command, where_str, ":æ­¤å¤„æ˜¯å¦åº”è¯¥æ˜¯whereå…³é”®å­—?");
 			end_of_last_command = true;
 			return;
 		}
@@ -600,14 +600,14 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 	string condition_str;
 	if (has_where) {
 		if (it == end) {
-			lose_argument_error("whereÖ®ºóĞèÒª½ô¸úÌõ¼ş²ÎÊı!");
+			lose_argument_error("whereä¹‹åéœ€è¦ç´§è·Ÿæ¡ä»¶å‚æ•°!");
 			return;
 		}
 
 		condition_str = *it;
 		it++;
 		if (it == end) {
-			lose_argument_error("È±ÉÙset!");
+			lose_argument_error("ç¼ºå°‘set!");
 			return;
 		}
 
@@ -615,12 +615,12 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 		it++;
 		if (set != keyword_set) {
 			if (condition_str == keyword_set) {
-				print_error(error_lose_arguments, "whereÖ®ºóĞèÒªÌõ¼ş!");
+				print_error(error_lose_arguments, "whereä¹‹åéœ€è¦æ¡ä»¶!");
 				end_of_last_command = true;
 				return;
 			}
 			else {
-				print_error(error_unknown_command, set, "´Ë´¦ÊÇ·ñÓ¦¸ÃÊÇset!");
+				print_error(error_unknown_command, set, "æ­¤å¤„æ˜¯å¦åº”è¯¥æ˜¯set!");
 				end_of_last_command = true;
 				return;
 			}
@@ -639,7 +639,7 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 	}
 
 	if (it == end) {
-		lose_argument_error("setÖ®ºóĞèÒª½ô¸ú¸üĞÂÁĞµÈ²ÎÊı!");
+		lose_argument_error("setä¹‹åéœ€è¦ç´§è·Ÿæ›´æ–°åˆ—ç­‰å‚æ•°!");
 		list_free(all_conditions);
 		return;
 	}
@@ -683,32 +683,32 @@ void CommandCycle::command_do_update(sregex_token_iterator &it) {
 	}
 
 	if (it != end) {
-		print_error(error_too_much_arguments, "updateĞèÒª3»ò5¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "updateéœ€è¦3æˆ–5ä¸ªå‚æ•°!");
 		end_of_last_command = true;
 		list_free(all_conditions);
 		return;
 	}
 
 	int update_num = p_table->update_objects(all_conditions, update_fields);
-	cout << "³É¹¦¸üĞÂ" << update_num << "ÌõÊı¾İ!" << endl;
+	cout << "æˆåŠŸæ›´æ–°" << update_num << "æ¡æ•°æ®!" << endl;
 	database->fresh_bit = false;
 	list_free(all_conditions);
 	end_of_last_command = true;
 }
 
-/*É¾³ı²Ù×÷*/
+/*åˆ é™¤æ“ä½œ*/
 void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error("deleteÖ®ºóĞèÒªfrom!");
+		lose_argument_error("deleteä¹‹åéœ€è¦from!");
 		return;
 	}
 	string from_str = *it;
 	it++;
 	if (from_str != keyword_from) {
-		print_error(error_unknown_command, from_str, ":´Ë´¦ĞèÒªfrom¹Ø¼ü×Ö!");
+		print_error(error_unknown_command, from_str, ":æ­¤å¤„éœ€è¦fromå…³é”®å­—!");
 		end_of_last_command = true;
 		return;
 	}
@@ -726,7 +726,7 @@ void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 		if (!enable_last_command) {
 			delete_num = p_table->objects.length;
 			p_table->objects.clear();
-			cout << "É¾³ı" << delete_num << "ÌõÊı¾İ!" << endl;
+			cout << "åˆ é™¤" << delete_num << "æ¡æ•°æ®!" << endl;
 			end_of_last_command = true;
 			return;
 		}
@@ -740,21 +740,21 @@ void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 	string where_str = *it;
 	it++;
 	if (where_str != keyword_where) {
-		print_error(error_unknown_command, where_str, ":´Ë´¦ÊÇ·ñÓ¦¸ÃÊÇwhere¹Ø¼ü×Ö?");
+		print_error(error_unknown_command, where_str, ":æ­¤å¤„æ˜¯å¦åº”è¯¥æ˜¯whereå…³é”®å­—?");
 		end_of_last_command = true;
 		return;
 	}
 
 	string condition_str;
 	if (it == end) {
-		lose_argument_error("whereÖ®ºóĞèÒª½ô¸úÌõ¼ş²ÎÊı!");
+		lose_argument_error("whereä¹‹åéœ€è¦ç´§è·Ÿæ¡ä»¶å‚æ•°!");
 		return;
 	}
 
 	condition_str = *it;
 	it++;
 	if (it != end) {
-		print_error(error_too_much_arguments, "deleteÖ»ĞèÒª2¸ö»òÕß4¸ö²ÎÊı!");
+		print_error(error_too_much_arguments, "deleteåªéœ€è¦2ä¸ªæˆ–è€…4ä¸ªå‚æ•°!");
 		end_of_last_command = true;
 		return;
 	}
@@ -765,19 +765,19 @@ void CommandCycle::command_do_delete(sregex_token_iterator &it) {
 	}
 
 	delete_num = p_table->delete_object(all_conditions);
-	cout << "³É¹¦É¾³ı" << delete_num << "ÌõÊı¾İ!" << endl;
+	cout << "æˆåŠŸåˆ é™¤" << delete_num << "æ¡æ•°æ®!" << endl;
 	database->fresh_bit = false;
 	list_free(all_conditions);
 	end_of_last_command = true;
 }
 
-/*renameÃüÁî*/
+/*renameå‘½ä»¤*/
 void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 	if (check_database_null()) {
 		return;
 	}
 	if (it == end) {
-		lose_argument_error("renameÖ®ºóĞèÒª½ô¸útable»òÕßcolumn!");
+		lose_argument_error("renameä¹‹åéœ€è¦ç´§è·Ÿtableæˆ–è€…column!");
 		return;
 	}
 	string type_str = *it;
@@ -785,7 +785,7 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 
 	if (type_str == keyword_table) {
 		if (it == end) {
-			lose_argument_error("tableÖ®ºóĞèÒª½ô¸ú±íÃû!");
+			lose_argument_error("tableä¹‹åéœ€è¦ç´§è·Ÿè¡¨å!");
 			return;
 		}
 		else {
@@ -798,7 +798,7 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 				return;
 			}
 			if (it == end) {
-				lose_argument_error(table_name, "Ö®ºóĞèÒªÒ»¸ö±íÊ¾ĞÂ±íÃûµÄ²ÎÊı!");
+				lose_argument_error(table_name, "ä¹‹åéœ€è¦ä¸€ä¸ªè¡¨ç¤ºæ–°è¡¨åçš„å‚æ•°!");
 				return;
 			}
 			string new_name = *it;
@@ -807,16 +807,16 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 				if (p_table->name != new_name) {
 					p_table->name = new_name;
 					database->fresh_bit = false;
-					cout << "ÖØÃüÃû³É¹¦!" << endl;
+					cout << "é‡å‘½åæˆåŠŸ!" << endl;
 				}
 				else {
-					cout << "Î´×öÈÎºÎ¸Ä±ä!" << endl;
+					cout << "æœªåšä»»ä½•æ”¹å˜!" << endl;
 				}
 				end_of_last_command = true;
 				return;
 			}
 			else {
-				print_error(error_too_much_arguments, "renameÃüÁîÖ»ĞèÒª3¸ö»òÕß5¸ö²ÎÊı!");
+				print_error(error_too_much_arguments, "renameå‘½ä»¤åªéœ€è¦3ä¸ªæˆ–è€…5ä¸ªå‚æ•°!");
 				end_of_last_command = true;
 				return;
 			}
@@ -824,29 +824,29 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 	}
 	else if (type_str == "column") {
 		if (it == end) {
-			lose_argument_error("columnÖ®ºóĞèÒª´ú±íÁĞÃûµÄ²ÎÊı!");
+			lose_argument_error("columnä¹‹åéœ€è¦ä»£è¡¨åˆ—åçš„å‚æ•°!");
 			return;
 		}
 		string column_name = *it;
 		it++;
 		if (it == end) {
-			lose_argument_error(column_name, "Ö®ºóĞèÒªin²ÎÊı!");
+			lose_argument_error(column_name, "ä¹‹åéœ€è¦inå‚æ•°!");
 			return;
 		}
 		string in_str = *it;
 		it++;
 		if (in_str != "in") {
 			if (column_name == "in") {
-				print_error(error_lose_arguments, "columnÖ®ºóĞèÒª´ú±íÁĞÃûµÄ²ÎÊı!");
+				print_error(error_lose_arguments, "columnä¹‹åéœ€è¦ä»£è¡¨åˆ—åçš„å‚æ•°!");
 				end_of_last_command = true;
 				return;
 			}
-			print_error(error_unknown_command, in_str, ":´Ë´¦ÊÇ·ñÓ¦¸ÃÊÇin!");
+			print_error(error_unknown_command, in_str, ":æ­¤å¤„æ˜¯å¦åº”è¯¥æ˜¯in!");
 			end_of_last_command = true;
 			return;
 		}
 		if (it == end) {
-			lose_argument_error("inÖ®ºóĞèÒªÒ»¸ö´ú±í±íÃûµÄ²ÎÊı!");
+			lose_argument_error("inä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨è¡¨åçš„å‚æ•°!");
 			return;
 		}
 		string table_name = *it;
@@ -864,44 +864,44 @@ void CommandCycle::command_do_rename(sregex_token_iterator &it) {
 			return;
 		}
 		if (it == end) {
-			lose_argument_error(table_name, "Ö®ºóĞèÒªÒ»¸ö´ú±íĞÂÁĞÃûµÄ²ÎÊı!");
+			lose_argument_error(table_name, "ä¹‹åéœ€è¦ä¸€ä¸ªä»£è¡¨æ–°åˆ—åçš„å‚æ•°!");
 			return;
 		}
 		string new_column = *it;
 		it++;
 		if (new_column == column_name) {
 			end_of_last_command = true;
-			cout << "Î´×öÈÎºÎ¸Ä±ä!" << endl;
+			cout << "æœªåšä»»ä½•æ”¹å˜!" << endl;
 			return;
 		}
 		if (it == end) {
 			if (p_table->column_names.set(index, new_column)) {
-				cout << "¸ü¸ÄÁĞÃû³É¹¦!" << endl;
+				cout << "æ›´æ”¹åˆ—åæˆåŠŸ!" << endl;
 				database->fresh_bit = false;
 				end_of_last_command = true;
 				return;
 			}
 			else {
-				print_error(error_unknown, "¸ü¸ÄÁĞÃûÊ§°Ü!");
+				print_error(error_unknown, "æ›´æ”¹åˆ—åå¤±è´¥!");
 				end_of_last_command = true;
 				return;
 			}
 		}
 		else {
-			print_error(error_too_much_arguments, "renameÃüÁîÖ»ĞèÒª3¸ö»òÕß5¸ö²ÎÊı!");
+			print_error(error_too_much_arguments, "renameå‘½ä»¤åªéœ€è¦3ä¸ªæˆ–è€…5ä¸ªå‚æ•°!");
 			end_of_last_command = true;
 			return;
 		}
 	}
 	else {
-		print_error(error_unknown_command, type_str, ":´Ë´¦ĞèÒªtable»òÕßcolumn!");
+		print_error(error_unknown_command, type_str, ":æ­¤å¤„éœ€è¦tableæˆ–è€…column!");
 		end_of_last_command = true;
 		return;
 	}
 }
 
-/*µ¥ÌõÃüÁîÑ­»·*/
-void CommandCycle::command_single_cycle(string &single_command_str) {
+/*å•æ¡å‘½ä»¤å¾ªç¯*/
+void CommandCycle::command_single_cycle(const string &single_command_str) {
 	if (end_of_last_command) {
 		single_command = "";
 	}
@@ -977,8 +977,8 @@ void CommandCycle::command_single_cycle(string &single_command_str) {
 	}
 }
 
-/*ÃüÁîÑ­»·Ö÷º¯Êı*/
-/*child_cycle:ÊÇ·ñÎªÃüÁî×ÓÑ­»·*/
+/*å‘½ä»¤å¾ªç¯ä¸»å‡½æ•°*/
+/*child_cycle:æ˜¯å¦ä¸ºå‘½ä»¤å­å¾ªç¯*/
 void CommandCycle::command_cycle(istream &ist, bool child_cycle) {
 	while (getline(ist, command)) {
 		command.append(" ");
@@ -1018,10 +1018,10 @@ void CommandCycle::command_cycle(istream &ist, bool child_cycle) {
 				continue;
 			}
 		}
-		if (child_cycle) {//×ÓÑ­»·
+		if (child_cycle) {//å­å¾ªç¯
 			cout << endl;
 		}
-		else {//Ö÷Ñ­»·
+		else {//ä¸»å¾ªç¯
 			print_destiny_line_head();
 		}
 	}

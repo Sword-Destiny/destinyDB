@@ -68,7 +68,7 @@ namespace CommandCycle {
 	void command_do_sort(sregex_token_iterator &it);
 
 	/*单条命令循环*/
-	void command_single_cycle(string &single_command_str);
+	void command_single_cycle(const string &single_command_str);
 
 	/*命令循环主函数*/
 	void command_cycle(istream &ist, bool child_cycle = false);

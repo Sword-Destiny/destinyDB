@@ -1,10 +1,11 @@
 <html>
 <head>
-<title>destinyDB</title>
+    <title>destinyDB</title>
+    <meta charset="GBK" content="text/html;charset=GBK" />
 </head>
 <body>
-<p>
-<pre>
+    <p>
+        <pre>
 # destinyDB<br />
 a simple and embedded database<br />
 一个简单的嵌入式数据库<br />
@@ -119,16 +120,16 @@ Linux*:	本来欲在Ubuntu下编译，可惜GCC正则表达式库没有具体实现，编译可以成功但是�
 		using std::sregex_token_iterator;<br />
 		不知道改成boost库之后能不能编译成功，没有试过。<br />
 		由于用到了时间获取函数（GetSystemTime），所以包含了Windows.h头文件<br />
-		主要在Log.h中使用，要迁移的话也要修改这两个文件<br />
+		主要在log.h中使用，要迁移的话也要修改这两个文件<br />
 		使用很少，应该不难修改。<br />
-		由于后来开发测试都没有在Linux下，除了这两个问题之外其他的地方有无问题也不知晓<br />
 		因此，建议在Visual Studio下编译。<br />
+        (现在已经发现GCC4.9实现了regex，所以重新启动了Linux下的开发)
 NOTICE:	文件组织方式<br />
 		文件要这个学期才学，现在主要就是以字符串的方式，其实就是以对象序列化的方式将一个database对象写入文件和读取<br />
 		说白了就是纯字节操作。<br />
 		本来想偷懒使用现成的序列化库，比较可靠的是boost，放弃的原因已经提到过，后来也找了几个其他的，不过都不好用，最后因为<br />
 		这个项目代码很少，类也不多，就手写了一些serialize和deserialize方法。<br />
 </pre>
-</p>
+    </p>
 </body>
 </html>

@@ -1,8 +1,8 @@
 /*******************************************************
  *	includes.h
- *	author:ÌìÃü½£Ö÷
- *	copyright(c) 2015 - ~: All rifgts reserved! ±£ÁôËùÓĞÈ¨Àû£¡
- *	Description(ÃèÊö):ÏîÄ¿ÖĞËù°üº¬µÄËùÓĞC++11±ê×¼¿âÎÄ¼ş,Ò»Ğ©È«¾Ö±äÁ¿,¸¨Öúº¯Êı,Êı¾İ½á¹¹¶¨Òå
+ *	author:å¤©å‘½å‰‘ä¸»
+ *	copyright(c) 2015 - ~: All rifgts reserved! ä¿ç•™æ‰€æœ‰æƒåˆ©ï¼
+ *	Description(æè¿°):é¡¹ç›®ä¸­æ‰€åŒ…å«çš„æ‰€æœ‰C++11æ ‡å‡†åº“æ–‡ä»¶,ä¸€äº›å…¨å±€å˜é‡,è¾…åŠ©å‡½æ•°,æ•°æ®ç»“æ„å®šä¹‰
  ******************************************************/
 #pragma once
 #ifndef INCLUDES_H
@@ -15,8 +15,6 @@
 #define MAX_LINE_NUM_STR "10000000"
 #define MAX_COLUMN_NUM 100000
 #define MAX_COLUMN_NUM_STR "100000"
-
-//#include <Windows.h>
 
 #include <regex>
 using std::regex;
@@ -55,7 +53,7 @@ using std::sprintf;
 #include "../data_struct/single_list.h"
 #include "../data_struct/Array.h"
 
-const string database_file_error = "Êı¾İ¿âÎÄ¼şËğ»µ!";
+const string database_file_error = "æ•°æ®åº“æ–‡ä»¶æŸå!";
 
 static const regex regex_bigger_than(">");
 static const regex regex_smaller_than("<");
@@ -65,19 +63,19 @@ static const regex regex_equal("=");
 static const regex regex_equality("={1,2}");
 static const regex regex_not_equal("!=");
 static const regex regex_op("[><=!]+");
-static const regex regex_empty("[ \\t]+");//Æ¥ÅäÈÎÒâÊıÁ¿¿Õ°××Ö·û,²»°üº¬»Ø³µºÍ»»ĞĞ
-static const regex regex_empty_seperator("[ \\t]*;[ \\t]*");//Æ¥Åä¿Õ°××Ö·û°üº¬·ÖºÅ
-static const regex regex_seperator(";");//Æ¥Åä·ÖºÅ
-static const regex regex_comma(",");//Æ¥Åä¶ººÅ
+static const regex regex_empty("[ \\t]+");//åŒ¹é…ä»»æ„æ•°é‡ç©ºç™½å­—ç¬¦,ä¸åŒ…å«å›è½¦å’Œæ¢è¡Œ
+static const regex regex_empty_seperator("[ \\t]*;[ \\t]*");//åŒ¹é…ç©ºç™½å­—ç¬¦åŒ…å«åˆ†å·
+static const regex regex_seperator(";");//åŒ¹é…åˆ†å·
+static const regex regex_comma(",");//åŒ¹é…é€—å·
 static const regex regex_or("\\|");
 static const regex regex_and("\\&");
 static const regex regex_empty_yes("[ \\t]*[Yy][Ee][Ss][ \\t]*|[ \\t]*[Yy][ \\t]*");
 static const regex regex_yes("[Yy][Ee][Ss]|[Yy]|[Tt][Rr][Uu][Ee]|[Tt]");
 static const regex regex_no("[Nn][Oo]|[Nn]|[Ff][Aa][Ll][Ss][Ee]|[Ff]");
 
-static const sregex_token_iterator end;//ÕıÔò±í´ïÊ½Ä©Î²
+static const sregex_token_iterator end;//æ­£åˆ™è¡¨è¾¾å¼æœ«å°¾
 
-/*Âß¼­Æ¥ÅäÀàĞÍ*/
+/*é€»è¾‘åŒ¹é…ç±»å‹*/
 enum logic_match_type {
 	equal, not_equal, bigger_than, smaller_than, bigger_or_equal, smaller_or_equal
 };
@@ -91,7 +89,7 @@ static const regex logic_match_types[6] = {
 	regex_not_equal
 };
 
-/*Âß¼­×ª»»:·Ç*/
+/*é€»è¾‘è½¬æ¢:é*/
 static logic_match_type logic_reverse(const logic_match_type &m) {
 	switch (m) {
 		case equal:
@@ -130,7 +128,7 @@ logic_match_type get_match_type(int type_id) {
 	}
 }
 
-/*ÊÇ·ñÊı×Ö*/
+/*æ˜¯å¦æ•°å­—*/
 bool is_num(const string &str) {
 	int dot_num = 0;
 	for (unsigned int i = 0; i < str.length(); i++) {
@@ -159,7 +157,7 @@ bool is_str_equal(const string &str1, const string &str2) {
 	return str1 == str2;
 }
 
-/*Ñ°ÕÒ×Ö·û´®ÖĞµÄlogic_match_type,Èç¹ûÆ¥ÅäÒ»´Î,·µ»Ø0-5,´ú±ílogic_match_typesÊı×éÏÂ±ê,·ñÔò·µ»Ø6*/
+/*å¯»æ‰¾å­—ç¬¦ä¸²ä¸­çš„logic_match_type,å¦‚æœåŒ¹é…ä¸€æ¬¡,è¿”å›0-5,ä»£è¡¨logic_match_typesæ•°ç»„ä¸‹æ ‡,å¦åˆ™è¿”å›6*/
 static int match_type_num(const string& str) {
 	sregex_token_iterator it(str.begin(), str.end(), regex_op, -1);
 	int match_num = 0;
@@ -178,7 +176,7 @@ static int match_type_num(const string& str) {
 	return 6;
 }
 
-/*×Ö·û´®ÅÅĞò¸¨Öúº¯Êı*/
+/*å­—ç¬¦ä¸²æ’åºè¾…åŠ©å‡½æ•°*/
 static bool bigger_than_str(const string& str1, const string& str2) {
 	if (is_num(str1) && is_num(str2)) {
 		return atof(str1.c_str()) > atof(str2.c_str());
@@ -199,7 +197,7 @@ static bool bigger_than_str(const string& str1, const string& str2) {
 	return false;
 }
 
-/*´òÓ¡´íÎóĞÅÏ¢*/
+/*æ‰“å°é”™è¯¯ä¿¡æ¯*/
 void print_error(int error_code, string error_information = "", string error_arguments = "");
 
 #endif

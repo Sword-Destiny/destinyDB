@@ -1,0 +1,5 @@
+open main.ddb
+create table test a,b,c
+insert into test 156,2456,6543
+insert into test 412,52,612121 721,82121,943543
+select a,b,c where a>0&b>0&c>0 from test

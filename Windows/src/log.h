@@ -8,8 +8,10 @@
 #ifndef MAIN_LOG
 #define MAIN_LOG
 #include "includes.h"
+
+#ifdef _WIN32
 #include <Windows.h>
-/*日志记录组件*/
+ /*日志记录组件*/
 namespace Log {
 
 	template<class T>
@@ -43,5 +45,5 @@ namespace Log {
 		os.close();
 	}
 }
-
+#	endif
 #endif

@@ -41,6 +41,8 @@ bool DatabaseFile::check_init_keyword(const string &keyword) {
 /*创建数据库文件*/
 void DatabaseFile::create_file(const string &file_path) {
 	ofstream ofs(file_path, ios::out);
+	int size = 0;
+	ofs.write((char*)&size, 4);
 	ofs.close();
 }
 
