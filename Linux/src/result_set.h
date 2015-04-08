@@ -28,16 +28,6 @@ public:
 	virtual ~ResultSet() {
 
 	}
-private:
-	/*获取行数*/
-	inline int get_line_num()const {
-		return this->objects.length;
-	}
-
-	/*获取列数*/
-	inline int get_column_num()const {
-		return this->column_names.length;
-	}
 public:
 	/*插入数据*/
 	bool insert_object(const DestinyObject &obj) {

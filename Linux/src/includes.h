@@ -144,10 +144,7 @@ bool is_num(const string &str) {
 			}
 		}
 	}
-	if (dot_num > 1) {
-		return false;
-	}
-	return true;
+	return dot_num <= 1;
 }
 
 bool is_str_equal(const string &str1, const string &str2) {

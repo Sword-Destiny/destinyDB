@@ -66,12 +66,12 @@ public:
 		SingleNode<string> *sp = this->column_names.head_node;
 		os.write((const char*)&this->column_names.length, 4);
 		while (sp != NULL) {
-			int serialize_size_t = sp->element.length();
+			int serialize_size_t = (int) sp->element.length();
 			os.write((char*)&serialize_size_t, 4);
 			os << sp->element;
 			sp = sp->next;
 		}
-		int name_size = this->name.length();
+		int name_size = (int) this->name.length();
 		os.write((char*)&name_size, 4);
 		os << this->name;
 		return os;
@@ -103,7 +103,7 @@ public:
 			if (!is.read(temp, len)) {
 				throw database_file_error;
 			}
-			table->column_names.add_tail(string(temp, len));
+			table->column_names.add_tail(string(temp, (unsigned long) len));
 			delete[] temp;
 		}
 		int name_len = 0;
@@ -115,18 +115,13 @@ public:
 		if (!is.read(temp, name_len)) {
 			throw database_file_error;
 		}
-		table->name = string(temp, name_len);
+		table->name = string(temp, (unsigned long) name_len);
 		delete[] temp;
 		return table;
 	}
 
 	friend ostream& operator<<(ostream& os, const DestinyTable& obj) {
 		return obj.serialize(os);
-	}
-
-	friend istream& operator>>(istream& is, DestinyTable* obj) {
-		obj = DestinyTable::deserialize(is);
-		return is;
 	}
 
 	/*插入数据*/

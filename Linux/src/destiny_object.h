@@ -44,7 +44,7 @@ public:
 	ostream& serialize(ostream &os)const {
 		os.write((const char*)&this->datas.length, 4);
 		for (int i = 0; i < this->datas.length; i++) {
-			int len = this->datas[i].length();
+			int len = (int) this->datas[i].length();
 			os.write((char*)&len, 4);
 			os << this->datas[i];
 		}
@@ -69,7 +69,7 @@ public:
 			if (!is.read(temp, len)) {
 				throw database_file_error;
 			}
-			r_datas->operator[](i) = string(temp, len);
+			r_datas->operator[](i) = string(temp, (unsigned long) len);
 			delete[] temp;
 		}
 		obj->datas = *r_datas;
